@@ -21,24 +21,19 @@ $input-text-color: black;
 $button-bg-color: #FAD036;
 $button-text-color: white;
 
-:root {
-  background: $background;
-  color: $text;
-  font: 1rem "PT Sans", sans-serif;
-}
-
  body {
   margin: 0;
  }
 
 .main-home {
   height: 100vh;
-  widows: 100vw;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: top;
   padding-top:
   150px;
+  box-sizing: border-box;
 }
 
 .email-box > h1 {
