@@ -1,0 +1,9 @@
+<div class="main-home" style=" background-image: url('<%= cl_image_path 'DeStijl' %>')">
+  <div class="container__item">
+    <%= form_for :user do |f| %>
+      <%= f.text_field :email, class: "form__field", placeholder: "Your E-Mail Address"  %>
+      <%= f.submit type: "button", class: "btn btn--primary btn--inside", value: "Add   " %>
+    <% end %>
+  </div>
+</div
+
