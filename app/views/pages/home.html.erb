@@ -1,7 +1,12 @@
 <div class="main-home" style=" background-image: url('<%= cl_image_path 'DeStijl' %>')">
   <div class="container">
     <% if user_signed_in? %>
-      <h1>You're now signed in.</h1>
+      <div class="white-box">
+        <%= form_for :repo, url: repo_github_index_path, method: :post do |f| %>
+        <%= select_tag(:amount, options_for_select([1, 2, 3]) ) %>
+          <%= f.submit %>
+        <% end %>
+      </div>
     <% else %>
       <%- if devise_mapping.omniauthable? %>
         <%- User.omniauth_providers.each do |provider| %>
