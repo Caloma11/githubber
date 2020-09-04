@@ -1,9 +1,15 @@
 <div class="main-home" style=" background-image: url('<%= cl_image_path 'DeStijl' %>')">
-  <div class="container__item">
-    <h1> <%= current_user ? "Logged in" : "Logged Out" %> </h1>
-    <%= form_for :user do |f| %>
-      <%= f.text_field :email, class: "form__field", placeholder: "Your E-Mail Address"  %>
-      <%= f.submit type: "button", class: "btn btn--primary btn--inside", value: "Add   " %>
+  <div class="container">
+    <% if user_signed_in? %>
+      <h1>You're now signed in.</h1>
+    <% else %>
+      <%- if devise_mapping.omniauthable? %>
+        <%- User.omniauth_providers.each do |provider| %>
+          <%= link_to omniauth_authorize_path(:user, provider) do  %>
+            <%= cl_image_tag "github-logo", width: 200, height: 200, id: "logo-login" %>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
   </div>
 </div
