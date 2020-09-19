@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :github do
       post :repo, on: :collection
+      delete :repo, on: :collection, to: "github#delete_repos"
   end
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth'}
   root to: "pages#home"
