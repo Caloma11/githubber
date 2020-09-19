@@ -8,4 +8,9 @@ class GithubController < ApplicationController
     GithubUpdaterService.new(current_user).delete_all_repos
     redirect_to root_path
   end
+
+  def random_commit
+    GithubUpdaterService.new(current_user).commit
+    redirect_to root_path
+  end
 end

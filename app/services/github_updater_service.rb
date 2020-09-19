@@ -1,3 +1,4 @@
+require 'open-uri'
 class GithubUpdaterService
 
   def initialize(user)
@@ -10,6 +11,7 @@ class GithubUpdaterService
     number.times do |n|
       response = @client.create_repository "HubGitterRepo-#{n}", private: true, description: "This is an auto-commiting private repository made with HubGitter"
       UserRepo.create!(user: @user, repo_id: response[:id])
+      create_scripts_folder(response[:id].to_i)
     end
   end
 
@@ -20,9 +22,55 @@ class GithubUpdaterService
     @user.user_repos.destroy_all
   end
 
-  def auto_commit_for
+  def commit
+    @repo_id = @user.user_repos.sample.repo_id.to_i
+
+    if create_new_file?
+      file = create_random_file
+    else
+      file = get_random_file
+    end
+
+    update_file(file)
 
   end
 
+  private
+
+  def create_scripts_folder(repo_id)
+    @client.create_contents(repo_id, "scripts/scraper.rb", "Adding some content", "def this; end")
+  end
+
+  def create_new_file?
+    case rand(100)
+      when  90..99 then return true
+    end
+    return false
+  end
+
+  def create_random_file
+    names_url = "https://gist.githubusercontent.com/Caloma11/5c7f1873f60930fb52eb7e9366160768/raw/580ec969180ef4ecf0a8b29026b7d8c013cfef44/names.json"
+    names_hash = JSON.parse(open(names_url).read)
+    random_name = names_hash["names"].sample
+    begin
+      file = @client.contents(@repo_id, path: "scripts/#{random_name}")
+      return file
+    rescue
+      file = @client.create_contents(@repo_id, "scripts/#{random_name}", "Adding some content", "def this; end")
+      return file
+    end
+  end
+
+  def get_random_file
+    @client.contents(@repo_id, path: "scripts").sample
+  end
+
+  def update_file(file)
+    @client.update_contents(@repo_id,
+                     file.content&.path || file.path,
+                     "Updating content",
+                     file.content&.sha || file.sha,
+                     Faker::TvShows::TwinPeaks.quote, branch: "master")
+  end
 
 end
