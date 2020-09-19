@@ -1,8 +1,11 @@
 // Place all the styles related to the omniauth controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
-  body {
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+ body {
   margin: 0;
+  font-family: 'Lato', sans-serif;
  }
 
 .main-home {
@@ -21,5 +24,24 @@
     transition: 1s;
     opacity: .6;
     cursor: pointer;
+  }
+}
+
+.white-box {
+  width: 400px;
+  height: 150px;
+  background-color: white;
+  opacity: .8;
+  border-radius: 3px;
+  padding: 20px;
+  box-sizing: border-box;
+
+  a {
+    color: #11235F;
+    text-decoration: none;
+    transition: .7s;
+    &:hover {
+      color: #BC3427;
+    }
   }
 }

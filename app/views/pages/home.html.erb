@@ -1,8 +1,13 @@
 <div class="main-home" style=" background-image: url('<%= cl_image_path 'DeStijl' %>')">
   <div class="container">
-    <% if user_signed_in? %>
-      <h1>You're now signed in.</h1>
-    <% else %>
+    <% if user_signed_in? && !current_user.user_repos.any? %>
+      <div class="white-box">
+        <%= form_for :repo, url: repo_github_index_path, method: :post do |f| %>
+        <%= select_tag(:amount, options_for_select([1, 2, 3]) ) %>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    <% elsif !user_signed_in? %>
       <%- if devise_mapping.omniauthable? %>
         <%- User.omniauth_providers.each do |provider| %>
           <%= link_to omniauth_authorize_path(:user, provider) do  %>
@@ -10,6 +15,10 @@
           <% end %>
         <% end %>
       <% end %>
+    <% else %>
+      <div class="white-box">
+        You have <%= current_user.user_repos.count %> repositories creating between 1 and 20 commits a day automatically. Click <a href="#">here</a> to delete them.
+      </div>
     <% end %>
   </div>
 </div
