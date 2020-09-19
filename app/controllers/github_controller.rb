@@ -1,5 +1,6 @@
 class GithubController < ApplicationController
   def repo
-    binding.pry
+    GithubUpdaterService.new.create_repos(current_user, amount: params[:amount].to_i)
+    redirect_to root_path
   end
 end
