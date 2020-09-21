@@ -52,20 +52,19 @@ class GithubUpdaterService
     names_url = "https://gist.githubusercontent.com/Caloma11/5c7f1873f60930fb52eb7e9366160768/raw/580ec969180ef4ecf0a8b29026b7d8c013cfef44/names.json"
     names_hash = JSON.parse(open(names_url).read)
     random_name = names_hash["names"].sample
-    # puts "New file will be created"
+    puts "New file will be created"
     begin
       file = @client.contents(@repo_id, path: "scripts/#{random_name}")
-      # puts "Name already existed."
+      puts "Name already existed."
       return file
     rescue
       file = @client.create_contents(@repo_id, "scripts/#{random_name}", "Adding some content", "def this; end")
-      # puts "New file was created."
+      puts "New file was created."
       return file
     end
   end
 
   def get_random_file
-    # binding.pry
     @client.contents(@repo_id, path: "scripts").sample
   end
 
@@ -76,9 +75,9 @@ class GithubUpdaterService
                      "Updating content",
                      file.content&.sha || file.sha,
                      Faker::TvShows::TwinPeaks.quote, branch: "master")
-    # puts "File was updated"
+    puts "File was updated"
     rescue
-      # puts "This file update failed."
+      puts "This file update failed."
     end
   end
 
