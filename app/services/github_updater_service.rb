@@ -74,11 +74,37 @@ class GithubUpdaterService
                      file.content&.path || file.path,
                      "Updating content",
                      file.content&.sha || file.sha,
-                     Faker::TvShows::TwinPeaks.quote, branch: "master")
+                     random_code, branch: "master")
     puts "File was updated"
     rescue
       puts "This file update failed."
     end
+  end
+
+  def random_code
+    index_url = "https://stackoverflow.com/questions/tagged/ruby?tab=votes&page=#{rand(40)}&pagesize=50"
+
+    questions_html_file = open(index_url).read
+    questions_html_doc = Nokogiri::HTML(questions_html_file)
+
+    questions_urls = []
+
+    questions_html_doc.search('.question-hyperlink').each do |element|
+      href = element.attribute('href').value
+      if href.match?(/^\/questions/)
+        questions_urls << "https://stackoverflow.com#{href}"
+      end
+    end
+
+    code = []
+
+    questions_urls.sample(2).each do |question_url|
+      question_html_file = open(question_url).read
+      question_html_doc = Nokogiri::HTML(question_html_file)
+      code << question_html_doc.search('#answers code').first.text
+    end
+
+    return code.join("\n")
   end
 
 end
