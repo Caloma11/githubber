@@ -9,4 +9,9 @@ class GithubController < ApplicationController
     redirect_to root_path
   end
 
+  def manual_commit
+    AutoCommitForUsersJob.perform_later
+    redirect_to root_path
+  end
+
 end
