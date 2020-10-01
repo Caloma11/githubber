@@ -1,6 +1,10 @@
 <div class="main-home" style=" background-image: url('<%= cl_image_path 'DeStijl' %>')">
   <div class="container">
-    <% if user_signed_in? && current_user.user_repos.empty? %>
+    <% if true %>
+      <%= link_to manual_github_index_path, method: :post do %>
+        <%= cl_image_tag "git-commit", width: 200, height: 220, id: "logo-login" %>
+      <% end %>
+    <% elsif user_signed_in? && current_user.user_repos.empty? %>
       <div class="white-box">
         <%= form_for :repo, url: repo_github_index_path, method: :post do |f| %>
         <%= select_tag(:amount, options_for_select([1, 2, 3]) ) %>

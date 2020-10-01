@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :github do
       post :repo, on: :collection
       delete :repo, on: :collection, to: "github#delete_repos"
+      post :manual, on: :collection, to: "github#manual_commit", as: :manual
   end
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth'}
