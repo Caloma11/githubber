@@ -6,6 +6,15 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resource :github, only: [] do
+        post "/manual", to: "github#manual", as: "manual"
+      end
+    end
+  end
+
+
   resources :github do
       post :repo, on: :collection
       delete :repo, on: :collection, to: "github#delete_repos"
