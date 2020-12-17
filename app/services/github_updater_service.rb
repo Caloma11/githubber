@@ -4,6 +4,7 @@ class GithubUpdaterService
   def initialize(user)
     @user = user
     @client = Octokit::Client.new(access_token: user.token)
+    @should_commit = consider_weekends
   end
 
   def create_repos(options = {})
@@ -23,6 +24,8 @@ class GithubUpdaterService
   end
 
   def commit
+    return unless should_commit
+
     @repo_id = @user.user_repos.sample.repo_id.to_i
 
     if create_new_file?
@@ -105,6 +108,16 @@ class GithubUpdaterService
     end
 
     return code.join("\n")
+  end
+
+  def consider_weekends
+    if Date.today.sunday?
+      (rand(1..10) > 8)
+    elsif Date.today.saturday?
+      (rand(1..10) > 6)
+    else
+      true
+    end
   end
 
 end
