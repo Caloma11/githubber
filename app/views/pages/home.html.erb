@@ -1,8 +1,11 @@
 <div class="main-home" style=" background-image: url('<%= cl_image_path 'DeStijl' %>')">
   <div class="container">
-    <% if true %>
+    <% if user_signed_in? && current_user.repos.any? %>
       <%= link_to manual_github_index_path, method: :post do %>
         <%= cl_image_tag "git-commit", width: 200, height: 220, id: "logo-login" %>
+      <div class="white-box">
+        You have <%= current_user.user_repos.count %> repositories creating between 1 and 20 commits a day automatically. Click <%= link_to "here", repo_github_index_path, method: :delete %> to delete them.
+      </div>
       <% end %>
     <% elsif user_signed_in? && current_user.user_repos.empty? %>
       <div class="white-box">
@@ -19,10 +22,6 @@
           <% end %>
         <% end %>
       <% end %>
-    <% else %>
-      <div class="white-box">
-        You have <%= current_user.user_repos.count %> repositories creating between 1 and 20 commits a day automatically. Click <%= link_to "here", repo_github_index_path, method: :delete %> to delete them.
-      </div>
     <% end %>
   </div>
 </div
