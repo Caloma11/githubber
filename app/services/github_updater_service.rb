@@ -24,7 +24,7 @@ class GithubUpdaterService
   end
 
   def commit
-    return unless should_commit
+    return unless @should_commit
 
     @repo_id = @user.user_repos.sample.repo_id.to_i
 
