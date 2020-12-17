@@ -1,6 +1,6 @@
 <div class="main-home" style=" background-image: url('<%= cl_image_path 'DeStijl' %>')">
   <div class="container">
-    <% if user_signed_in? && current_user.repos.any? %>
+    <% if user_signed_in? && current_user.user_repos.any? %>
       <%= link_to manual_github_index_path, method: :post do %>
         <%= cl_image_tag "git-commit", width: 200, height: 220, id: "logo-login" %>
       <div class="white-box">
