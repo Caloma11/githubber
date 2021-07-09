@@ -3,7 +3,7 @@ class AutoCommitForUsersJob < ApplicationJob
 
   def perform(*args)
     User.all.each do |user|
-      rand(20).times { GithubUpdaterService.new(user).commit }
+      rand(14).times { GithubUpdaterService.new(user).commit }
     end
   end
 end

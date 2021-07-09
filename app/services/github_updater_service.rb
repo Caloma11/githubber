@@ -4,7 +4,7 @@ class GithubUpdaterService
   def initialize(user)
     @user = user
     @client = Octokit::Client.new(access_token: user.token)
-    @should_commit = consider_weekends
+    @should_commit = consider_weekends && rand(3) != 2
   end
 
   def create_repos(options = {})
